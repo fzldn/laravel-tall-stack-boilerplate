@@ -3,25 +3,26 @@
 namespace App\Policies;
 
 use App\Enums\PermissionsEnum;
+use App\Models\Role;
 use App\Models\User;
 use Illuminate\Auth\Access\Response;
 
-class UserPolicy
+class RolePolicy
 {
     /**
      * Determine whether the user can view any models.
      */
     public function viewAny(User $user): bool
     {
-        return $user->can(PermissionsEnum::USERS_VIEWANY->value);
+        return $user->can(PermissionsEnum::ROLES_VIEWANY->value);
     }
 
     /**
      * Determine whether the user can view the model.
      */
-    public function view(User $user, User $model): bool
+    public function view(User $user, Role $role): bool
     {
-        return $user->can(PermissionsEnum::USERS_VIEW->value);
+        return $user->can(PermissionsEnum::ROLES_VIEW->value);
     }
 
     /**
@@ -29,27 +30,31 @@ class UserPolicy
      */
     public function create(User $user): bool
     {
-        return $user->can(PermissionsEnum::USERS_CREATE->value);
+        return $user->can(PermissionsEnum::ROLES_CREATE->value);
     }
 
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user, User $model): bool
+    public function update(User $user, Role $role): bool
     {
-        return $user->can(PermissionsEnum::USERS_UPDATE->value);
+        if ($role->isSuperAdmin()) {
+            return false;
+        }
+
+        return $user->can(PermissionsEnum::ROLES_UPDATE->value);
     }
 
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(User $user, User $model): bool
+    public function delete(User $user, Role $role): bool
     {
-        if (!$model->is($user)) {
+        if ($role->isSuperAdmin()) {
             return false;
         }
 
-        return $user->can(PermissionsEnum::USERS_DELETE->value);
+        return $user->can(PermissionsEnum::ROLES_DELETE->value);
     }
 
     /**
@@ -57,13 +62,13 @@ class UserPolicy
      */
     public function deleteAny(User $user): bool
     {
-        return $user->can(PermissionsEnum::USERS_DELETEANY->value);
+        return $user->can(PermissionsEnum::ROLES_DELETEANY->value);
     }
 
     /**
      * Determine whether the user can restore the model.
      */
-    public function restore(User $user, User $model): bool
+    public function restore(User $user, Role $role): bool
     {
         return true;
     }
@@ -71,7 +76,7 @@ class UserPolicy
     /**
      * Determine whether the user can permanently delete the model.
      */
-    public function forceDelete(User $user, User $model): bool
+    public function forceDelete(User $user, Role $role): bool
     {
         return true;
     }
