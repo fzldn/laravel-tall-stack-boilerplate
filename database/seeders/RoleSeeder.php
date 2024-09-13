@@ -14,11 +14,15 @@ class RoleSeeder extends Seeder
      */
     public function run(): void
     {
+        $now = now();
+
         Role::insertOrIgnore(
             collect(RolesEnum::cases())
                 ->map(fn(RolesEnum $role) => [
                     'name' => $role->value,
-                    'guard_name' => 'web'
+                    'guard_name' => 'web',
+                    'created_at' => $now,
+                    'updated_at' => $now,
                 ])
                 ->toArray()
         );

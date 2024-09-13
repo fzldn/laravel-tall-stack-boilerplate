@@ -18,11 +18,14 @@ class PermissionSeeder extends Seeder
         app()[\Spatie\Permission\PermissionRegistrar::class]->forgetCachedPermissions();
 
         // Batch insert permissions
+        $now = now();
         Permission::insertOrIgnore(
             collect(PermissionsEnum::cases())
                 ->map(fn(PermissionsEnum $permission) => [
                     'name' => $permission->value,
-                    'guard_name' => 'web'
+                    'guard_name' => 'web',
+                    'created_at' => $now,
+                    'updated_at' => $now,
                 ])
                 ->toArray()
         );
