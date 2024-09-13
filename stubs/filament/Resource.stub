@@ -37,7 +37,9 @@ class {{ resourceClass }} extends Resource
 {{ tableFilters }}
             ])
             ->actions([
+                Tables\Actions\ActionGroup::make([
 {{ tableActions }}
+                ])
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
