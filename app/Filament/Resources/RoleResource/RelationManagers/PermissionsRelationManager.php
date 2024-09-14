@@ -9,6 +9,7 @@ use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class PermissionsRelationManager extends RelationManager
@@ -39,5 +40,10 @@ class PermissionsRelationManager extends RelationManager
                     Tables\Actions\DetachBulkAction::make(),
                 ]),
             ]);
+    }
+
+    public static function canViewForRecord(Model $ownerRecord, string $pageClass): bool
+    {
+        return !$ownerRecord->isSuperAdmin();
     }
 }
