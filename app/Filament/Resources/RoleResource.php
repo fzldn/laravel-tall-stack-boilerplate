@@ -14,6 +14,7 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Console\View\Components\Info;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Support\HtmlString;
 
@@ -23,11 +24,18 @@ class RoleResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-user-group';
 
+    protected static ?string $recordTitleAttribute = 'name';
+
     protected static ?int $navigationSort = 1;
 
     public static function getNavigationGroup(): ?string
     {
         return __('Access Management');
+    }
+
+    public static function getGlobalSearchResultUrl(Model $record): string
+    {
+        return static::getUrl('view', ['record' => $record]);
     }
 
     public static function form(Form $form): Form
