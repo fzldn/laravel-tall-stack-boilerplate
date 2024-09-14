@@ -20,6 +20,7 @@ class RoleSeeder extends Seeder
             collect(RolesEnum::cases())
                 ->map(fn(RolesEnum $role) => [
                     'name' => $role->value,
+                    'description' => 'Has full access to all system features and settings.',
                     'guard_name' => 'web',
                     'created_at' => $now,
                     'updated_at' => $now,
