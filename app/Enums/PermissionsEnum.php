@@ -21,19 +21,19 @@ enum PermissionsEnum: string
     public function label(): string
     {
         return match ($this) {
-            self::USERS_CREATE => __('permissions.users.create'),
-            self::USERS_VIEWANY => __('permissions.users.viewAny'),
-            self::USERS_VIEW => __('permissions.users.view'),
-            self::USERS_UPDATE => __('permissions.users.update'),
-            self::USERS_DELETE => __('permissions.users.delete'),
-            self::USERS_DELETEANY => __('permissions.users.deleteAny'),
+            self::USERS_CREATE => __('Create User'),
+            self::USERS_VIEWANY => __('View Any Users'),
+            self::USERS_VIEW => __('View User'),
+            self::USERS_UPDATE => __('Update User'),
+            self::USERS_DELETE => __('Delete User'),
+            self::USERS_DELETEANY => __('Delete Any Users'),
 
-            self::ROLES_CREATE => __('permissions.roles.create'),
-            self::ROLES_VIEWANY => __('permissions.roles.viewAny'),
-            self::ROLES_VIEW => __('permissions.roles.view'),
-            self::ROLES_UPDATE => __('permissions.roles.update'),
-            self::ROLES_DELETE => __('permissions.roles.delete'),
-            self::ROLES_DELETEANY => __('permissions.roles.deleteAny'),
+            self::ROLES_CREATE => __('Create Role'),
+            self::ROLES_VIEWANY => __('View Any Roles'),
+            self::ROLES_VIEW => __('View Role'),
+            self::ROLES_UPDATE => __('Update Role'),
+            self::ROLES_DELETE => __('Delete Role'),
+            self::ROLES_DELETEANY => __('Delete Any Roles'),
 
             default => $this->value,
         };
