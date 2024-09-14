@@ -31,7 +31,7 @@ class AdminPanelProvider extends PanelProvider
             ->passwordReset()
             ->profile()
             ->colors([
-                'primary' => Color::Amber,
+                'primary' => Color::Indigo,
             ])
             ->font('Poppins')
             ->sidebarCollapsibleOnDesktop()
