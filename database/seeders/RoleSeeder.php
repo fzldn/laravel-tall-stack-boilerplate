@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Enums\RolesEnum;
+use App\Enums\Role as EnumsRole;
 use App\Models\Role;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -17,8 +17,8 @@ class RoleSeeder extends Seeder
         $now = now();
 
         Role::insertOrIgnore(
-            collect(RolesEnum::cases())
-                ->map(fn(RolesEnum $role) => [
+            collect(EnumsRole::cases())
+                ->map(fn(EnumsRole $role) => [
                     'name' => $role->value,
                     'description' => 'Has full access to all system features and settings.',
                     'guard_name' => 'web',

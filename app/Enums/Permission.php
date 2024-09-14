@@ -2,7 +2,7 @@
 
 namespace App\Enums;
 
-enum PermissionsEnum: string
+enum Permission: string
 {
     case USERS_CREATE = 'users.create';
     case USERS_VIEWANY = 'users.viewAny';

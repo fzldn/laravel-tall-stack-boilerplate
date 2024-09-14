@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Enums\RolesEnum;
+use App\Enums\Role;
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -25,6 +25,6 @@ class UserSeeder extends Seeder
             'remember_token' => Str::random(10),
         ]);
 
-        $superAdmin->assignRole(RolesEnum::SUPER_ADMIN);
+        $superAdmin->assignRole(Role::SUPER_ADMIN);
     }
 }

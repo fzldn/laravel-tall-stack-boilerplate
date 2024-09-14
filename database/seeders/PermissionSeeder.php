@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Enums\PermissionsEnum;
+use App\Enums\Permission as EnumsPermission;
 use App\Models\Permission;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -20,8 +20,8 @@ class PermissionSeeder extends Seeder
         // Batch insert permissions
         $now = now();
         Permission::insertOrIgnore(
-            collect(PermissionsEnum::cases())
-                ->map(fn(PermissionsEnum $permission) => [
+            collect(EnumsPermission::cases())
+                ->map(fn(EnumsPermission $permission) => [
                     'name' => $permission->value,
                     'guard_name' => 'web',
                     'created_at' => $now,

@@ -2,7 +2,7 @@
 
 namespace App\Policies;
 
-use App\Enums\PermissionsEnum;
+use App\Enums\Permission;
 use App\Models\User;
 use Illuminate\Auth\Access\Response;
 
@@ -13,7 +13,7 @@ class UserPolicy
      */
     public function viewAny(User $user): bool
     {
-        return $user->can(PermissionsEnum::USERS_VIEWANY->value);
+        return $user->can(Permission::USERS_VIEWANY->value);
     }
 
     /**
@@ -21,7 +21,7 @@ class UserPolicy
      */
     public function view(User $user, User $model): bool
     {
-        return $user->can(PermissionsEnum::USERS_VIEW->value);
+        return $user->can(Permission::USERS_VIEW->value);
     }
 
     /**
@@ -29,7 +29,7 @@ class UserPolicy
      */
     public function create(User $user): bool
     {
-        return $user->can(PermissionsEnum::USERS_CREATE->value);
+        return $user->can(Permission::USERS_CREATE->value);
     }
 
     /**
@@ -37,7 +37,7 @@ class UserPolicy
      */
     public function update(User $user, User $model): bool
     {
-        return $user->can(PermissionsEnum::USERS_UPDATE->value);
+        return $user->can(Permission::USERS_UPDATE->value);
     }
 
     /**
@@ -51,7 +51,7 @@ class UserPolicy
                 return false;
         }
 
-        return $user->can(PermissionsEnum::USERS_DELETE->value);
+        return $user->can(Permission::USERS_DELETE->value);
     }
 
     /**
@@ -59,7 +59,7 @@ class UserPolicy
      */
     public function deleteAny(User $user): bool
     {
-        return $user->can(PermissionsEnum::USERS_DELETEANY->value);
+        return $user->can(Permission::USERS_DELETEANY->value);
     }
 
     /**

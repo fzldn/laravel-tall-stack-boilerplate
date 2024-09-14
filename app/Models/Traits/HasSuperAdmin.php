@@ -2,12 +2,12 @@
 
 namespace App\Models\Traits;
 
-use App\Enums\RolesEnum;
+use App\Enums\Role;
 
 trait HasSuperAdmin
 {
     public function isSuperAdmin(): bool
     {
-        return $this->hasRole(RolesEnum::SUPER_ADMIN);
+        return $this->hasRole(Role::SUPER_ADMIN);
     }
 }
