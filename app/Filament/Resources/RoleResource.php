@@ -90,6 +90,7 @@ class RoleResource extends Resource
     {
         return [
             RelationManagers\PermissionsRelationManager::class,
+            RelationManagers\UsersRelationManager::class,
         ];
     }
 
