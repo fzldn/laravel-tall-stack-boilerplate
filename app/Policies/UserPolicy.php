@@ -45,8 +45,10 @@ class UserPolicy
      */
     public function delete(User $user, User $model): bool
     {
-        if ($model->is($user)) {
-            return false;
+        switch (true) {
+            case $model->is($user): // User can't delete themselves
+            case $model->isSuperAdmin(): // User can't delete super admin
+                return false;
         }
 
         return $user->can(PermissionsEnum::USERS_DELETE->value);
