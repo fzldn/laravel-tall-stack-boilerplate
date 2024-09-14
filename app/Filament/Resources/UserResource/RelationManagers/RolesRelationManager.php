@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\UserResource\RelationManagers;
 
+use App\Enums\Role;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Notifications\Notification;
@@ -35,7 +36,15 @@ class RolesRelationManager extends RelationManager
             ])
             ->headerActions([
                 Tables\Actions\AttachAction::make()
-                    ->multiple(),
+                    ->multiple()
+                    ->recordSelectOptionsQuery(function (Builder $query) {
+                        /** @var \App\Models\User */
+                        $authUser = auth('web')->user();
+
+                        if (!$authUser->isSuperAdmin()) {
+                            $query->where('name', '!=', Role::SUPER_ADMIN);
+                        }
+                    }),
             ])
             ->actions([
                 Tables\Actions\DetachAction::make(),
