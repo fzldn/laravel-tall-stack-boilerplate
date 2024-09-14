@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Filament\Resources\UserResource\RelationManagers;
+namespace App\Filament\Resources\RoleResource\RelationManagers;
 
+use App\Models\Permission;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\RelationManagers\RelationManager;
@@ -10,21 +11,18 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
-class RolesRelationManager extends RelationManager
+class PermissionsRelationManager extends RelationManager
 {
-    protected static string $relationship = 'roles';
+    protected static string $relationship = 'permissions';
 
     public function table(Table $table): Table
     {
         return $table
+            ->recordTitle(fn(Permission $permission) => $permission->label)
             ->recordTitleAttribute('name')
             ->columns([
-                Tables\Columns\TextColumn::make('name')
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('permissions_count')
-                    ->counts('permissions')
-                    ->label(__('Permissions'))
-                    ->sortable(),
+                Tables\Columns\TextColumn::make('label')
+                    ->label(__('Name')),
             ])
             ->filters([
                 //
