@@ -17,6 +17,9 @@ enum Permission: string
     case ROLES_UPDATE = 'roles.update';
     case ROLES_DELETE = 'roles.delete';
     case ROLES_DELETEANY = 'roles.deleteAny';
+    case ROLES_ATTACH = 'roles.attach';
+    case ROLES_DETACH = 'roles.detach';
+    case ROLES_DETACHANY = 'roles.detachAny';
 
     public function label(): string
     {
@@ -34,6 +37,9 @@ enum Permission: string
             self::ROLES_UPDATE => __('Update Role'),
             self::ROLES_DELETE => __('Delete Role'),
             self::ROLES_DELETEANY => __('Delete Any Roles'),
+            self::ROLES_ATTACH => __('Attach Role'),
+            self::ROLES_DETACH => __('Detach Role'),
+            self::ROLES_DETACHANY => __('Detach Any Roles'),
 
             default => $this->value,
         };

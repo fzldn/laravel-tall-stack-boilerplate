@@ -80,4 +80,23 @@ class RolePolicy
     {
         return true;
     }
+
+    public function attach(User $user): bool
+    {
+        return $user->can(Permission::ROLES_ATTACH->value);
+    }
+
+    public function detach(User $user, Role $role): bool
+    {
+        if ($role->isSuperAdmin()) {
+            return false;
+        }
+
+        return $user->can(Permission::ROLES_DETACH->value);
+    }
+
+    public function detachAny(User $user): bool
+    {
+        return $user->can(Permission::ROLES_DETACHANY->value);
+    }
 }

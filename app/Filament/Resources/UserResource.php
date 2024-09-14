@@ -118,8 +118,9 @@ class UserResource extends Resource
                             if (!Gate::check('delete', $record)) {
                                 return Notification::make()
                                     ->title(__('Permission Denied'))
-                                    ->body(__('You do not have permission to delete this record.'))
+                                    ->body(__('You do not have permission to delete :name.', ['name' => $record->name]))
                                     ->danger()
+                                    ->persistent()
                                     ->send();
                             }
 
