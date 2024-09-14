@@ -28,7 +28,9 @@ class UsersRelationManager extends RelationManager
                 //
             ])
             ->headerActions([
-                Tables\Actions\AttachAction::make(),
+                Tables\Actions\AttachAction::make()
+                    ->recordSelectSearchColumns(['name', 'email'])
+                    ->multiple(),
             ])
             ->actions([
                 Tables\Actions\DetachAction::make(),

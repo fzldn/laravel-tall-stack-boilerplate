@@ -28,7 +28,8 @@ class PermissionsRelationManager extends RelationManager
                 //
             ])
             ->headerActions([
-                Tables\Actions\AttachAction::make(),
+                Tables\Actions\AttachAction::make()
+                    ->multiple(),
             ])
             ->actions([
                 Tables\Actions\DetachAction::make(),
