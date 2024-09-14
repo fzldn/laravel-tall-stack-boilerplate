@@ -51,10 +51,12 @@ class RoleResource extends Resource
                     ->searchable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('permissions_count')
+                    ->counts('permissions')
                     ->label(__('Permissions'))
                     ->searchable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('users_count')
+                    ->counts('users')
                     ->label(__('Users'))
                     ->searchable()
                     ->sortable(),
@@ -108,12 +110,5 @@ class RoleResource extends Resource
                 Infolists\Components\TextEntry::make('name'),
                 Infolists\Components\TextEntry::make('description')->default('-'),
             ]);
-    }
-
-    public static function getEloquentQuery(): Builder
-    {
-        return parent::getEloquentQuery()
-            ->withCount('users')
-            ->withCount('permissions');
     }
 }
