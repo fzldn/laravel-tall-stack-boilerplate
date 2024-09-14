@@ -21,6 +21,9 @@ class RolesRelationManager extends RelationManager
 
     public function table(Table $table): Table
     {
+        /** @var \App\Models\User */
+        $authUser = auth('web')->user();
+
         return $table
             ->recordTitleAttribute('name')
             ->columns([
@@ -37,10 +40,7 @@ class RolesRelationManager extends RelationManager
             ->headerActions([
                 Tables\Actions\AttachAction::make()
                     ->multiple()
-                    ->recordSelectOptionsQuery(function (Builder $query) {
-                        /** @var \App\Models\User */
-                        $authUser = auth('web')->user();
-
+                    ->recordSelectOptionsQuery(function (Builder $query) use ($authUser) {
                         if (!$authUser->isSuperAdmin()) {
                             $query->where('name', '!=', Role::SUPER_ADMIN);
                         }
