@@ -11,6 +11,10 @@
 |
 */
 
+use App\Models\Permission;
+use App\Models\Role;
+use App\Models\User;
+
 uses(
     Tests\TestCase::class,
     Illuminate\Foundation\Testing\RefreshDatabase::class,
@@ -42,7 +46,21 @@ expect()->extend('toBeOne', function () {
 |
 */
 
-function something()
+function createAndAssignRole(User $user, string|BackedEnum|array $permissions = []): Role
 {
-    // ..
+    $role = Role::factory()->create();
+
+    $permissionsArray = collect(is_array($permissions) ? $permissions : [$permissions])
+        ->map(fn($permission) => [
+            'name' => $permission instanceof BackedEnum ? $permission->value : $permission,
+            'guard_name' => 'web',
+        ]);
+
+    Permission::insert($permissionsArray->toArray());
+
+    $role->givePermissionTo($permissionsArray->pluck('name')->toArray());
+
+    $user->assignRole($role);
+
+    return $role;
 }
