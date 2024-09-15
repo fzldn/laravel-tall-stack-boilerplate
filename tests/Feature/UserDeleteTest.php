@@ -25,5 +25,19 @@ it('can delete', function () {
     livewire(UserResource\Pages\ViewUser::class, ['record' => $user->getRouteKey()])
         ->callAction(DeleteAction::class);
 
-    $this->assertDatabaseMissing('users', ['id' => $user->id]);
+    $this->assertDatabaseMissing(User::class, ['id' => $user->id]);
+});
+
+it('cannot delete self', function () {
+    livewire(UserResource\Pages\ViewUser::class, ['record' => $this->user->getRouteKey()])
+        ->assertActionHidden(DeleteAction::class);
+});
+
+it('cannot delete super admin', function () {
+    $user = User::factory()->create();
+
+    assignSuperAdminRole($user);
+
+    livewire(UserResource\Pages\ViewUser::class, ['record' => $user->getRouteKey()])
+        ->assertActionHidden(DeleteAction::class);
 });

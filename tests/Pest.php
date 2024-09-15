@@ -11,6 +11,7 @@
 |
 */
 
+use App\Enums\Role as EnumsRole;
 use App\Models\Permission;
 use App\Models\Role;
 use App\Models\User;
@@ -63,4 +64,11 @@ function givePermissions(User $user, string|BackedEnum|array $permissions = []):
     $user->assignRole($role);
 
     return $role;
+}
+
+function assignSuperAdminRole(User $user): void
+{
+    Role::insertOrIgnore([['name' => EnumsRole::SUPER_ADMIN, 'guard_name' => 'web']]);
+
+    $user->assignRole(EnumsRole::SUPER_ADMIN);
 }
