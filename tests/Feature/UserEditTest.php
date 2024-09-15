@@ -81,3 +81,11 @@ it('cannot edit with same email', function () {
             'email' => 'unique',
         ]);
 });
+
+it('can list roles', function () {
+    livewire(UserResource\RelationManagers\RolesRelationManager::class, [
+        'ownerRecord' => $this->user,
+        'pageClass' => UserResource\Pages\EditUser::class,
+    ])
+        ->assertCanSeeTableRecords($this->user->roles);
+});

@@ -27,12 +27,15 @@ it('can delete', function () {
     livewire(RoleResource\Pages\ViewRole::class, ['record' => $role->getRouteKey()])
         ->callAction(DeleteAction::class);
 
-    $this->assertDatabaseMissing(User::class, ['id' => $role->id]);
+    $this->assertModelMissing($role);
 });
 
-it('cannot delete super admin', function () {
+it('not able to delete super admin', function () {
     $role = Role::factory()->create(['name' => EnumsRole::SUPER_ADMIN]);
 
     livewire(RoleResource\Pages\ViewRole::class, ['record' => $role->getRouteKey()])
         ->assertActionHidden(DeleteAction::class);
+
+    livewire(RoleResource\Pages\ListRoles::class)
+        ->assertTableActionDoesNotExist(DeleteAction::class, record: $role);
 });
