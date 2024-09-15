@@ -7,7 +7,7 @@ use App\Models\User;
 beforeEach(function () {
     $this->user = User::factory()->create();
 
-    createAndAssignRole($this->user, Permission::USERS_VIEWANY);
+    givePermissions($this->user, Permission::USERS_VIEWANY);
 
     $this->actingAs($this->user);
 });

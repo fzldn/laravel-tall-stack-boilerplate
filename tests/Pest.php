@@ -46,7 +46,7 @@ expect()->extend('toBeOne', function () {
 |
 */
 
-function createAndAssignRole(User $user, string|BackedEnum|array $permissions = []): Role
+function givePermissions(User $user, string|BackedEnum|array $permissions = []): Role
 {
     $role = Role::factory()->create();
 
