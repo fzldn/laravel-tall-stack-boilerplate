@@ -57,7 +57,7 @@ function givePermission(User $user, string|BackedEnum|array $permissions = []): 
             'guard_name' => 'web',
         ]);
 
-    Permission::insert($permissionsArray->toArray());
+    Permission::insertOrIgnore($permissionsArray->toArray());
 
     $role->givePermissionTo($permissionsArray->pluck('name')->toArray());
 
