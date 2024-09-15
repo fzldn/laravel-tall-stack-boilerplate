@@ -2,6 +2,12 @@
 
 <p align="center">
 <a href="https://github.com/fzldn/laravel-tallstack-boilerplate/actions"><img src="https://github.com/fzldn/laravel-tallstack-boilerplate/workflows/tests/badge.svg" alt="Build Status"></a>
+<img src="https://img.shields.io/badge/Laravel-11-red?logo=laravel" alt="Laravel 11">
+<img src="https://img.shields.io/badge/PHP-8.3-777BB4?logo=php" alt="PHP 8.3">
+<img src="https://img.shields.io/badge/Livewire-3.x-FB70A8?logo=livewire" alt="Livewire v3.x">
+<img src="https://img.shields.io/badge/Tailwind_CSS-3.x-06B6D4?logo=tailwindcss" alt="Tailwind CSS v3.x">
+<img src="https://img.shields.io/badge/filamentphp-3.x-FFA435?logo=filamentphp" alt="filamentphp v3.x">
+<img src="https://img.shields.io/badge/Node.js-20.x-5FA04E?logo=nodedotjs" alt="Node.js 20.x">
 </p>
 
 ## About Laravel TallStack Boilerplate
