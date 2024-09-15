@@ -48,7 +48,7 @@ it('can list permissions', function () {
 
 it('can list users', function () {
     $role = Role::factory()->create();
-    User::factory()->create()->assignRole($role);
+    $this->user->assignRole($role);
 
     livewire(RoleResource\RelationManagers\UsersRelationManager::class, [
         'ownerRecord' => $role,
