@@ -9,7 +9,7 @@ use function Pest\Livewire\livewire;
 beforeEach(function () {
     $this->user = User::factory()->create();
 
-    givePermissions($this->user, Permission::USERS_VIEWANY);
+    givePermission($this->user, Permission::USERS_VIEWANY);
 
     $this->actingAs($this->user);
 });

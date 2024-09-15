@@ -1,16 +1,18 @@
 <?php
 
 use App\Enums\Permission;
+use App\Enums\Role as EnumsRole;
 use App\Filament\Resources\RoleResource;
 use App\Models\Role;
 use App\Models\User;
+use Filament\Actions\EditAction;
 
 use function Pest\Livewire\livewire;
 
 beforeEach(function () {
     $this->user = User::factory()->create();
 
-    givePermissions($this->user, [
+    givePermission($this->user, [
         Permission::ROLES_VIEWANY,
         Permission::ROLES_UPDATE,
     ]);
@@ -81,3 +83,11 @@ it('cannot edit with same name', function () {
         ]);
 });
 
+it('cannot edit super admin', function () {
+    $role = Role::factory()->create(['name' => EnumsRole::SUPER_ADMIN]);
+
+    givePermission($this->user, Permission::ROLES_VIEW);
+
+    livewire(RoleResource\Pages\ViewRole::class, ['record' => $role->getRouteKey()])
+        ->assertActionHidden(EditAction::class);
+});
