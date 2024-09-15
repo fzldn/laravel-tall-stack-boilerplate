@@ -2,6 +2,7 @@
 
 use App\Enums\Permission;
 use App\Filament\Resources\UserResource;
+use App\Models\Role;
 use App\Models\User;
 
 use function Pest\Livewire\livewire;
@@ -32,4 +33,16 @@ it('can retrieve data', function () {
     ])
         ->assertSee($user->name)
         ->assertSee($user->email);
+});
+
+it('can list roles', function () {
+    $role = Role::factory()->create();
+    $user = User::factory()->create();
+    $user->assignRole($role);
+
+    livewire(UserResource\RelationManagers\RolesRelationManager::class, [
+        'ownerRecord' => $user,
+        'pageClass' => UserResource\Pages\ViewUser::class,
+    ])
+        ->assertCanSeeTableRecords($user->roles);
 });
