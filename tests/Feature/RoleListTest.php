@@ -1,7 +1,8 @@
 <?php
 
 use App\Enums\Permission;
-use App\Filament\Resources\UserResource;
+use App\Filament\Resources\RoleResource;
+use App\Models\Role;
 use App\Models\User;
 
 use function Pest\Livewire\livewire;
@@ -9,20 +10,20 @@ use function Pest\Livewire\livewire;
 beforeEach(function () {
     $this->user = User::factory()->create();
 
-    givePermissions($this->user, Permission::USERS_VIEWANY);
+    givePermissions($this->user, Permission::ROLES_VIEWANY);
 
     $this->actingAs($this->user);
 });
 
 it('can render page', function () {
     $this
-        ->get(UserResource::getUrl('index'))
+        ->get(RoleResource::getUrl('index'))
         ->assertSuccessful();
 });
 
 it('can list users', function () {
-    $users = User::factory(2)->create();
+    $roles = Role::factory(2)->create();
 
-    livewire(UserResource\Pages\ListUsers::class)
-        ->assertCanSeeTableRecords($users);
+    livewire(RoleResource\Pages\ListRoles::class)
+        ->assertCanSeeTableRecords($roles);
 });
