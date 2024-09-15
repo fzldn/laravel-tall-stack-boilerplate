@@ -16,13 +16,6 @@ jobs:
       with:
         php-version: '8.3'
     - uses: actions/checkout@v4
-    - uses: actions/setup-node@v4
-      with:
-        node-version: 20
-    - name: Run npm install
-      run: npm install
-    - name: Build assets
-      run: npm run build
     - name: Copy .env
       run: php -r "file_exists('.env') || copy('.env.example', '.env');"
     - name: Install Dependencies
@@ -35,6 +28,13 @@ jobs:
       run: |
         mkdir -p database
         touch database/database.sqlite
+    - uses: actions/setup-node@v4
+      with:
+        node-version: 20
+    - name: Run npm install
+      run: npm install
+    - name: Build assets
+      run: npm run build
     - name: Execute tests (Unit and Feature tests) via PHPUnit/Pest
       env:
         DB_CONNECTION: sqlite
