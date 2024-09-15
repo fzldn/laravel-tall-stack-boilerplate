@@ -9,8 +9,7 @@ beforeEach(function () {
 
     givePermissions($this->user, [
         Permission::USERS_VIEWANY,
-        Permission::USERS_VIEW,
-        Permission::ROLES_VIEWANY,
+        Permission::USERS_UPDATE,
     ]);
 
     $this->actingAs($this->user);
@@ -18,6 +17,6 @@ beforeEach(function () {
 
 it('can render page', function () {
     $this
-        ->get(UserResource::getUrl('view', ['record' => User::factory()->create()]))
+        ->get(UserResource::getUrl('edit', ['record' => User::factory()->create()]))
         ->assertSuccessful();
 });
