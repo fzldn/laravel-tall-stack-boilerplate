@@ -1,0 +1,12 @@
+@import '/vendor/filament/filament/resources/css/theme.css';
+
+@config 'tailwind.config.js';
+
+@layer base {
+    .fi-sidebar-header {
+        @apply lg:border-r border-dashed border-gray-200 dark:border-gray-800;
+    }
+    .fi-sidebar-nav {
+        @apply lg:border-r border-dashed border-gray-200 dark:border-gray-800;
+    }
+}
