@@ -13,5 +13,8 @@ abstract class TestCase extends BaseTestCase
 
         // now de-register all the roles and permissions by clearing the permission cache
         $this->app->make(\Spatie\Permission\PermissionRegistrar::class)->forgetCachedPermissions();
+
+        // disable activity logging
+        activity()->disableLogging();
     }
 }

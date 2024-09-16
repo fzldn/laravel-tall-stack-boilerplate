@@ -8,19 +8,19 @@ use App\Models\Traits\HasSuperAdmin;
 use Filament\Models\Contracts\FilamentUser;
 use Filament\Panel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Spatie\Activitylog\LogOptions;
-use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable implements FilamentUser
 {
     use HasFactory;
     use Notifiable;
-    use HasRoles;
+    use HasRoles {
+        roles as protected originalRoles;
+    }
     use HasSuperAdmin;
-    use LogsActivity;
 
     /**
      * The attributes that are mass assignable.
@@ -66,8 +66,13 @@ class User extends Authenticatable implements FilamentUser
         return true;
     }
 
-    public function getActivitylogOptions(): LogOptions
+    /**
+     * The roles that belong to the user.
+     *
+     * @return BelongsToMany<Role>
+     */
+    public function roles(): BelongsToMany
     {
-        return LogOptions::defaults();
+        return $this->originalRoles()->using(RoleUser::class);
     }
 }
