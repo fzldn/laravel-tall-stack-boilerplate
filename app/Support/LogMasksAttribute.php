@@ -5,9 +5,9 @@ namespace App\Support;
 use Spatie\Activitylog\Contracts\LoggablePipe;
 use Spatie\Activitylog\EventLogBag;
 
-class LogMasksAttributes implements LoggablePipe
+class LogMasksAttribute implements LoggablePipe
 {
-    public function __construct(public array $attributes) {}
+    protected array $attributes = ['password'];
 
     public function handle(EventLogBag $event, \Closure $next): EventLogBag
     {

@@ -2,15 +2,13 @@
 
 namespace App\Models\Traits;
 
-use App\Support\LogMasksAttributes;
+use App\Support\LogMasksAttribute;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
 
 trait LogsModel
 {
     use LogsActivity;
-
-    protected static array $maskedAttributes = ['password'];
 
     public function getActivitylogOptions(): LogOptions
     {
@@ -33,6 +31,6 @@ trait LogsModel
 
     public static function bootLogsModel(): void
     {
-        static::addLogChange(new LogMasksAttributes(static::$maskedAttributes));
+        static::addLogChange(new LogMasksAttribute);
     }
 }
