@@ -27,4 +27,14 @@ class Role extends ModelsRole
     {
         return parent::users()->using(RoleUser::class);
     }
+
+    /**
+     * The permissions that belong to the role.
+     *
+     * @return BelongsToMany<Permission>
+     */
+    public function permissions(): BelongsToMany
+    {
+        return parent::permissions()->using(PermissionRole::class);
+    }
 }
