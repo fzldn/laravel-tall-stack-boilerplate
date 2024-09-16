@@ -5,6 +5,7 @@ namespace App\Models;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
 use App\Models\Traits\HasSuperAdmin;
+use App\Models\Traits\LogsModel;
 use Filament\Models\Contracts\FilamentUser;
 use Filament\Panel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -21,6 +22,7 @@ class User extends Authenticatable implements FilamentUser
         roles as protected originalRoles;
     }
     use HasSuperAdmin;
+    use LogsModel;
 
     /**
      * The attributes that are mass assignable.
@@ -64,6 +66,11 @@ class User extends Authenticatable implements FilamentUser
     public function canAccessPanel(Panel $panel): bool
     {
         return true;
+    }
+
+    public function logExcept(): array
+    {
+        return ['remember_token'];
     }
 
     /**

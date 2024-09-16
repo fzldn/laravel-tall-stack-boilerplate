@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\Role as EnumsRole;
+use App\Models\Traits\LogsModel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Spatie\Permission\Models\Role as ModelsRole;
@@ -10,6 +11,7 @@ use Spatie\Permission\Models\Role as ModelsRole;
 class Role extends ModelsRole
 {
     use HasFactory;
+    use LogsModel;
 
     public function isSuperAdmin(): bool
     {
