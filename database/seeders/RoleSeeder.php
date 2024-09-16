@@ -14,18 +14,9 @@ class RoleSeeder extends Seeder
      */
     public function run(): void
     {
-        $now = now();
-
-        Role::insertOrIgnore(
-            collect(EnumsRole::cases())
-                ->map(fn(EnumsRole $role) => [
-                    'name' => $role->value,
-                    'description' => 'Has full access to all system features and settings.',
-                    'guard_name' => 'web',
-                    'created_at' => $now,
-                    'updated_at' => $now,
-                ])
-                ->toArray()
+        Role::updateOrCreate(
+            ['name' => EnumsRole::SUPER_ADMIN],
+            ['description' => 'Has full access to all system features and settings.']
         );
     }
 }
