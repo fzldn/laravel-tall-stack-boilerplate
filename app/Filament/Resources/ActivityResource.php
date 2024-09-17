@@ -8,10 +8,12 @@ use App\Models\Activity;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
+use Filament\Support\Enums\FontFamily;
 use Filament\Tables;
-use Filament\Tables\Columns\Layout\Stack;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\Pivot;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class ActivityResource extends Resource
@@ -33,11 +35,14 @@ class ActivityResource extends Resource
             ->heading(__('Activity Logs'))
             ->description(__('A log of all activity in the system.'))
             ->columns([
-                Stack::make([
-                    Tables\Columns\TextColumn::make('description_formatted'),
+                Tables\Columns\Layout\Split::make([
+                    Tables\Columns\TextColumn::make('description')->html(),
                     Tables\Columns\TextColumn::make('created_at')
-                        ->dateTime()
-                        ->color('warning'),
+                        ->since()
+                        ->dateTimeTooltip()
+                        ->badge()
+                        ->color('warning')
+                        ->grow(false),
                 ]),
             ])
             ->filters([

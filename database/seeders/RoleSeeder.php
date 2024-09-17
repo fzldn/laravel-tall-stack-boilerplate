@@ -15,7 +15,7 @@ class RoleSeeder extends Seeder
     public function run(): void
     {
         Role::updateOrCreate(
-            ['name' => EnumsRole::SUPER_ADMIN],
+            ['name' => EnumsRole::SUPER_ADMIN->value],
             ['description' => 'Has full access to all system features and settings.']
         );
     }
