@@ -5,6 +5,7 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\ActivityResource\Pages;
 use App\Filament\Resources\ActivityResource\RelationManagers;
 use App\Models\Activity;
+use App\Models\User;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -32,8 +33,6 @@ class ActivityResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
-            ->heading(__('Activity Logs'))
-            ->description(__('A log of all activity in the system.'))
             ->columns([
                 Tables\Columns\Layout\Split::make([
                     Tables\Columns\TextColumn::make('description')->html(),
@@ -46,8 +45,31 @@ class ActivityResource extends Resource
                 ]),
             ])
             ->filters([
-                //
-            ]);
+                Tables\Filters\Filter::make('from')
+                    ->form([Forms\Components\DatePicker::make('from')])
+                    ->query(function (Builder $query, array $data): Builder {
+                        return $query
+                            ->when(
+                                $data['from'],
+                                fn(Builder $query, $date): Builder => $query->whereDate('created_at', '>=', $date),
+                            );
+                    }),
+                Tables\Filters\Filter::make('to')
+                    ->form([Forms\Components\DatePicker::make('to')])
+                    ->query(function (Builder $query, array $data): Builder {
+                        return $query
+                            ->when(
+                                $data['to'],
+                                fn(Builder $query, $date): Builder => $query->whereDate('created_at', '<=', $date),
+                            );
+                    }),
+                Tables\Filters\SelectFilter::make('causer_id')
+                    ->label(__('Causer'))
+                    ->options(
+                        User::orderBy('name')->pluck('name', 'id')
+                    )
+                    ->searchable(),
+            ], layout: Tables\Enums\FiltersLayout::AboveContent);
     }
 
     public static function getPages(): array
