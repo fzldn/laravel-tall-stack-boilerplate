@@ -37,10 +37,18 @@ class RoleUser extends MorphPivot
     }
 
     /**
+     * @return MorphTo
+     */
+    public function model(): MorphTo
+    {
+        return $this->morphTo();
+    }
+
+    /**
      * @return MorphTo<User>
      */
     public function user(): MorphTo
     {
-        return $this->morphTo('model');
+        return $this->model()->whereHasMorph('model', [User::class]);
     }
 }
