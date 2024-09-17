@@ -77,7 +77,6 @@ return new class extends Migration
         });
 
         Schema::create($tableNames['model_has_roles'], function (Blueprint $table) use ($tableNames, $columnNames, $pivotRole, $teams) {
-            $table->bigIncrements('id');
             $table->unsignedBigInteger($pivotRole);
 
             $table->string('model_type');
@@ -95,13 +94,12 @@ return new class extends Migration
                 $table->primary([$columnNames['team_foreign_key'], $pivotRole, $columnNames['model_morph_key'], 'model_type'],
                     'model_has_roles_role_model_type_primary');
             } else {
-                $table->unique([$pivotRole, $columnNames['model_morph_key'], 'model_type'],
+                $table->primary([$pivotRole, $columnNames['model_morph_key'], 'model_type'],
                     'model_has_roles_role_model_type_primary');
             }
         });
 
         Schema::create($tableNames['role_has_permissions'], function (Blueprint $table) use ($tableNames, $pivotRole, $pivotPermission) {
-            $table->bigIncrements('id');
             $table->unsignedBigInteger($pivotPermission);
             $table->unsignedBigInteger($pivotRole);
 
@@ -115,7 +113,7 @@ return new class extends Migration
                 ->on($tableNames['roles'])
                 ->onDelete('cascade');
 
-            $table->unique([$pivotPermission, $pivotRole], 'role_has_permissions_permission_id_role_id_primary');
+            $table->primary([$pivotPermission, $pivotRole], 'role_has_permissions_permission_id_role_id_primary');
         });
 
         app('cache')

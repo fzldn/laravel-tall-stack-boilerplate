@@ -11,13 +11,6 @@ class PermissionRole extends Pivot
     use LogsModel;
 
     /**
-     * Indicates if the IDs are auto-incrementing.
-     *
-     * @var bool
-     */
-    public $incrementing = true;
-
-    /**
      * Get the table associated with the model.
      *
      * @return string
