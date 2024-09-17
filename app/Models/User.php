@@ -8,6 +8,7 @@ use App\Models\Traits\HasSuperAdmin;
 use App\Models\Traits\LogsModel;
 use Filament\Models\Contracts\FilamentUser;
 use Filament\Panel;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -71,6 +72,15 @@ class User extends Authenticatable implements FilamentUser
     public function logExcept(): array
     {
         return ['remember_token'];
+    }
+
+    public function logIncludes(Builder $query): Builder
+    {
+        return $query->whereHasMorph('subject', [RoleUser::class], function ($q) {
+            $q
+                ->where('model_type', $this->getMorphClass())
+                ->where(config('permission.column_names.model_morph_key'), $this->getKey());
+        });
     }
 
     /**

@@ -3,6 +3,7 @@
 namespace App\Models\Traits;
 
 use App\Support\LogMasksAttribute;
+use Illuminate\Database\Eloquent\Builder;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
 
@@ -32,5 +33,10 @@ trait LogsModel
     public static function bootLogsModel(): void
     {
         static::addLogChange(new LogMasksAttribute);
+    }
+
+    public function logIncludes(Builder $query): Builder
+    {
+        return $query;
     }
 }
