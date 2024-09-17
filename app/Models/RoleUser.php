@@ -28,23 +28,24 @@ class RoleUser extends MorphPivot
         return config('permission.table_names.model_has_roles', parent::getTable());
     }
 
-    public function logDescription(string $eventName): string
+    protected function getLogFirstSubject(): object
     {
-        return __('Role <strong>:role.name</strong> was <strong>:event</strong> :to User <strong>:user.name</strong> by :causer.name', [
-            'role.name' => e($this->role->name),
-            'event' => match ($eventName) {
-                'created' => __('assigned'),
-                'deleted' => __('revoked'),
-                default => $eventName,
-            },
-            'to' => match ($eventName) {
-                'created' => __('to'),
-                'deleted' => __('from'),
-                default => __('for'),
-            },
-            'user.name' => e($this->user->name),
-            'causer.name' => $this->getLogCauserName(),
-        ]);
+        return $this->role;
+    }
+
+    protected function getLogFirstSubjectName(): string
+    {
+        return $this->role->name;
+    }
+
+    protected function getLogSecondSubject(): object
+    {
+        return $this->user;
+    }
+
+    protected function getLogSecondSubjectName(): string
+    {
+        return $this->user->name;
     }
 
     /**

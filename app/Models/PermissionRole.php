@@ -27,23 +27,24 @@ class PermissionRole extends Pivot
         return config('permission.table_names.role_has_permissions', parent::getTable());
     }
 
-    public function logDescription(string $eventName): string
+    protected function getLogFirstSubject(): object
     {
-        return __('Permission <strong>:permission.name</strong> was <strong>:event</strong> :to Role <strong>:role.name</strong> by :causer.name', [
-            'permission.name' => e($this->permission->label),
-            'event' => match ($eventName) {
-                'created' => __('attached'),
-                'deleted' => __('detached'),
-                default => $eventName,
-            },
-            'to' => match ($eventName) {
-                'created' => __('to'),
-                'deleted' => __('from'),
-                default => __('for'),
-            },
-            'role.name' => e($this->role->name),
-            'causer.name' => $this->getLogCauserName(),
-        ]);
+        return $this->permission;
+    }
+
+    protected function getLogFirstSubjectName(): string
+    {
+        return $this->permission->label;
+    }
+
+    protected function getLogSecondSubject(): object
+    {
+        return $this->role;
+    }
+
+    protected function getLogSecondSubjectName(): string
+    {
+        return $this->role->name;
     }
 
     /**
