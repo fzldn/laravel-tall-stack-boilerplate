@@ -21,6 +21,8 @@ enum Permission: string
     case ROLES_DETACH = 'roles.detach';
     case ROLES_DETACHANY = 'roles.detachAny';
 
+    case ACTIVITIES_VIEWANY = 'activities.viewAny';
+
     public function label(): string
     {
         return match ($this) {
@@ -40,6 +42,8 @@ enum Permission: string
             self::ROLES_ATTACH => __('Attach Role'),
             self::ROLES_DETACH => __('Detach Role'),
             self::ROLES_DETACHANY => __('Detach Any Roles'),
+
+            self::ACTIVITIES_VIEWANY => __('View Any Activities'),
 
             default => $this->value,
         };
