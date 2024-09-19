@@ -117,7 +117,8 @@ class RoleResource extends Resource
         return $infolist
             ->schema([
                 Infolists\Components\TextEntry::make('name'),
-                Infolists\Components\TextEntry::make('description')->default('-'),
+                Infolists\Components\TextEntry::make('description')
+                    ->placeholder(__('No description provided.')),
             ]);
     }
 }
