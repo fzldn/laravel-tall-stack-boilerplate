@@ -45,6 +45,12 @@ class ActivityResource extends Resource
                 ]),
             ])
             ->filters([
+                Tables\Filters\SelectFilter::make('causer_id')
+                    ->label(__('Causer'))
+                    ->options(
+                        User::orderBy('name')->pluck('name', 'id')
+                    )
+                    ->searchable(),
                 Tables\Filters\Filter::make('from')
                     ->form([Forms\Components\DatePicker::make('from')])
                     ->query(function (Builder $query, array $data): Builder {
@@ -53,6 +59,13 @@ class ActivityResource extends Resource
                                 $data['from'],
                                 fn(Builder $query, $date): Builder => $query->whereDate('created_at', '>=', $date),
                             );
+                    })
+                    ->indicateUsing(function ($data) {
+                        if (! $data['from']) {
+                            return null;
+                        }
+
+                        return __('From: :date', ['date' => $data['from']]);
                     }),
                 Tables\Filters\Filter::make('to')
                     ->form([Forms\Components\DatePicker::make('to')])
@@ -62,13 +75,14 @@ class ActivityResource extends Resource
                                 $data['to'],
                                 fn(Builder $query, $date): Builder => $query->whereDate('created_at', '<=', $date),
                             );
+                    })
+                    ->indicateUsing(function ($data) {
+                        if (! $data['to']) {
+                            return null;
+                        }
+
+                        return __('To: :date', ['date' => $data['to']]);
                     }),
-                Tables\Filters\SelectFilter::make('causer_id')
-                    ->label(__('Causer'))
-                    ->options(
-                        User::orderBy('name')->pluck('name', 'id')
-                    )
-                    ->searchable(),
             ], layout: Tables\Enums\FiltersLayout::AboveContent);
     }
 
