@@ -36,13 +36,17 @@ class ActivityResource extends Resource
             ->columns([
                 Tables\Columns\Layout\Split::make([
                     Tables\Columns\TextColumn::make('description')->html(),
-                    Tables\Columns\TextColumn::make('created_at')
-                        ->since()
-                        ->dateTimeTooltip()
-                        ->badge()
-                        ->color('warning')
+                    Tables\Columns\Layout\Split::make([
+                        Tables\Columns\TextColumn::make('created_at')
+                            ->since()
+                            ->dateTimeTooltip()
+                            ->badge()
+                            ->color('warning')
+                            ->grow(false),
+                    ])
                         ->grow(false),
-                ]),
+                ])
+                    ->from('md'),
             ])
             ->filters([
                 Tables\Filters\SelectFilter::make('causer_id')
