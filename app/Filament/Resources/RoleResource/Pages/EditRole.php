@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\RoleResource\Pages;
 
+use App\Filament\Resources\ActivityResource;
 use App\Filament\Resources\RoleResource;
 use Filament\Actions;
 use Filament\Resources\Pages\EditRecord;
@@ -15,6 +16,13 @@ class EditRole extends EditRecord
         return [
             Actions\ViewAction::make(),
             Actions\DeleteAction::make(),
+        ];
+    }
+
+    protected function getFooterWidgets(): array
+    {
+        return [
+            ActivityResource\Widgets\ModelActivity::make(['subject' => $this->record]),
         ];
     }
 }

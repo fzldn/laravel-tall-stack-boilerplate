@@ -8,9 +8,7 @@ use App\Models\Activity;
 use App\Models\User;
 use Filament\Forms;
 use Filament\Forms\Form;
-use Filament\Infolists;
 use Filament\Resources\Resource;
-use Filament\Support\Enums\FontFamily;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
@@ -64,12 +62,12 @@ class ActivityResource extends Resource
                     )
                     ->searchable(),
                 Tables\Filters\Filter::make('from')
-                    ->form([Forms\Components\DatePicker::make('from')])
+                    ->form([Forms\Components\DateTimePicker::make('from')])
                     ->query(function (Builder $query, array $data): Builder {
                         return $query
                             ->when(
                                 $data['from'],
-                                fn(Builder $query, $date): Builder => $query->whereDate('created_at', '>=', $date),
+                                fn(Builder $query, $date): Builder => $query->where('created_at', '>=', $date),
                             );
                     })
                     ->indicateUsing(function ($data) {
@@ -80,12 +78,12 @@ class ActivityResource extends Resource
                         return __('From: :date', ['date' => $data['from']]);
                     }),
                 Tables\Filters\Filter::make('to')
-                    ->form([Forms\Components\DatePicker::make('to')])
+                    ->form([Forms\Components\DateTimePicker::make('to')])
                     ->query(function (Builder $query, array $data): Builder {
                         return $query
                             ->when(
                                 $data['to'],
-                                fn(Builder $query, $date): Builder => $query->whereDate('created_at', '<=', $date),
+                                fn(Builder $query, $date): Builder => $query->where('created_at', '<=', $date),
                             );
                     })
                     ->indicateUsing(function ($data) {

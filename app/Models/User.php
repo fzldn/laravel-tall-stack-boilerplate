@@ -11,6 +11,7 @@ use Filament\Panel;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Spatie\Permission\Traits\HasRoles;
@@ -76,11 +77,15 @@ class User extends Authenticatable implements FilamentUser
 
     public function logIncludes(Builder $query): Builder
     {
-        return $query->whereHasMorph('subject', [RoleUser::class], function ($q) {
-            $q
-                ->where('model_type', $this->getMorphClass())
-                ->where(config('permission.column_names.model_morph_key'), $this->getKey());
-        });
+        return $query
+            ->where('subject_type', Relation::getMorphAlias(RoleUser::class))
+            ->where(function ($q) {
+                $modelMorphKey = config('permission.column_names.model_morph_key');
+
+                $q
+                    ->where("properties->attributes->{$modelMorphKey}", $this->getKey())
+                    ->orWhere("properties->old->{$modelMorphKey}", $this->getKey());
+            });
     }
 
     /**
