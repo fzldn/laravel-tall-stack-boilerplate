@@ -8,11 +8,17 @@ use Filament\Tables\Table;
 use Filament\Widgets\TableWidget as BaseWidget;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\Pivot;
+use Illuminate\Support\Facades\Gate;
 
 class ModelActivity extends BaseWidget
 {
     public ?Model $causer = null;
     public ?Model $subject = null;
+
+    public static function canView(): bool
+    {
+        return Gate::check('viewAny', Activity::class);
+    }
 
     public function getHeading(): ?string
     {
