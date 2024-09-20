@@ -8,6 +8,7 @@ use App\Models\Activity;
 use App\Models\User;
 use Filament\Forms;
 use Filament\Forms\Form;
+use Filament\Infolists;
 use Filament\Resources\Resource;
 use Filament\Support\Enums\FontFamily;
 use Filament\Tables;
@@ -47,6 +48,13 @@ class ActivityResource extends Resource
                         ->grow(false),
                 ])
                     ->from('md'),
+                Tables\Columns\Layout\Panel::make([
+                    Tables\Columns\ViewColumn::make('properties')
+                        ->view('filament.tables.columns.activity-properties'),
+                ])
+                    ->hidden(fn(Model $model) => (new $model->subject_type) instanceof Pivot)
+                    ->extraAttributes(['class' => 'overflow-x-auto'])
+                    ->collapsible(),
             ])
             ->filters([
                 Tables\Filters\SelectFilter::make('causer_id')
