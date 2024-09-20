@@ -6,7 +6,6 @@ use App\Models\Role;
 use App\Models\User;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
-use Illuminate\Support\Str;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -48,21 +47,6 @@ class AppServiceProvider extends ServiceProvider
             }
 
             return null;
-        });
-    }
-
-    protected function macros(): void
-    {
-        Str::macro('wrapHtmlTag', function ($string, $tag = 'span', $attributes = []) {
-            $attrString = '';
-
-            if (!empty($attributes)) {
-                foreach ($attributes as $key => $value) {
-                    $attrString .= " {$key}=\"{$value}\"";
-                }
-            }
-
-            return "<{$tag}{$attrString}>{$string}</{$tag}>";
         });
     }
 }

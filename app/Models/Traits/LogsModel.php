@@ -48,14 +48,13 @@ trait LogsModel
         return $this->name;
     }
 
-    protected function getLogCauserName(): HtmlString
+    protected function getLogCauserName(): string
     {
-        $user = auth('web')->user();
+        if ($user = auth('web')->user()) {
+            return $user->name;
+        }
 
-        return str($user->name ?? __('system'))
-            ->wrap($user ? '**' : '*')
-            ->inlineMarkdown()
-            ->toHtmlString();
+        return __('System');
     }
 
     protected function getLogFirstSubject(): object
@@ -80,32 +79,32 @@ trait LogsModel
 
     protected function logDescription(string $eventName): string
     {
-        return __(':subject.type <strong>:subject.name</strong> was <strong>:event</strong> by :causer.name', [
+        return __(':subject.type :subject.name was :event by :causer.name', [
             'subject.type' => str(class_basename(get_class($this)))->headline(),
-            'subject.name' => e($this->getLogSubjectName()),
-            'event' => $eventName,
-            'causer.name' => $this->getLogCauserName(),
+            'subject.name' => str(e($this->getLogSubjectName()))->wrapHtmlTag('strong'),
+            'event' => str($eventName)->wrapHtmlTag('em')->wrapHtmlTag('strong'),
+            'causer.name' => str(e($this->getLogCauserName()))->wrapHtmlTag('strong'),
         ]);
     }
 
     protected function logDescriptionPivot(string $eventName): string
     {
-        return __(':subject.first.type <strong>:subject.first.name</strong> was <strong>:event</strong> :to :subject.second.type <strong>:subject.second.name</strong> by :causer.name', [
+        return __(':subject.first.type :subject.first.name was :event :to :subject.second.type :subject.second.name by :causer.name', [
             'subject.first.type' => str(class_basename(get_class($this->getLogFirstSubject())))->headline(),
-            'subject.first.name' => e($this->getLogFirstSubjectName()),
-            'event' => match ($eventName) {
+            'subject.first.name' => str(e($this->getLogFirstSubjectName()))->wrapHtmlTag('strong'),
+            'event' => str(match ($eventName) {
                 'created' => __('attached'),
                 'deleted' => __('detached'),
                 default => $eventName,
-            },
+            })->wrapHtmlTag('em')->wrapHtmlTag('strong'),
             'to' => match ($eventName) {
                 'created' => __('to'),
                 'deleted' => __('from'),
                 default => __('for'),
             },
             'subject.second.type' => str(class_basename(get_class($this->getLogSecondSubject())))->headline(),
-            'subject.second.name' => e($this->getLogSecondSubjectName()),
-            'causer.name' => $this->getLogCauserName(),
+            'subject.second.name' => str(e($this->getLogSecondSubjectName()))->wrapHtmlTag('strong'),
+            'causer.name' => str(e($this->getLogCauserName()))->wrapHtmlTag('strong'),
         ]);
     }
 }
