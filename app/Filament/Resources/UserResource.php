@@ -88,6 +88,12 @@ class UserResource extends Resource
                     ->label(__('Roles'))
                     ->counts('roles')
                     ->sortable(),
+                Tables\Columns\TextColumn::make('actions_max_created_at')
+                    ->label(__('Last Activity At'))
+                    ->max('actions', 'created_at')
+                    ->since()
+                    ->dateTimeTooltip()
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('email_verified_at')
                     ->dateTime()
                     ->sortable()

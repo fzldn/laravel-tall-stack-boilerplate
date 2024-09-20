@@ -14,6 +14,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Spatie\Activitylog\Traits\CausesActivity;
 use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable implements FilamentUser
@@ -25,6 +26,7 @@ class User extends Authenticatable implements FilamentUser
     }
     use HasSuperAdmin;
     use LogsModel;
+    use CausesActivity;
 
     /**
      * The attributes that are mass assignable.
