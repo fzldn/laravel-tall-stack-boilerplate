@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Traits\LogsModel;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphPivot;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
@@ -21,24 +22,24 @@ class RoleUser extends MorphPivot
         return config('permission.table_names.model_has_roles', parent::getTable());
     }
 
-    protected function getLogFirstSubject(): object
+    protected function getLogFirstSubject(): Model
     {
         return $this->role;
     }
 
     protected function getLogFirstSubjectName(): string
     {
-        return $this->role->name;
+        return $this->getLogFirstSubject()->name;
     }
 
-    protected function getLogSecondSubject(): object
+    protected function getLogSecondSubject(): Model
     {
         return $this->user;
     }
 
     protected function getLogSecondSubjectName(): string
     {
-        return $this->user->name;
+        return $this->getLogSecondSubject()->name;
     }
 
     /**

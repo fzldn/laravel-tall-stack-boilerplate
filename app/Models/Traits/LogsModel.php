@@ -4,8 +4,8 @@ namespace App\Models\Traits;
 
 use App\Support\LogMasksAttribute;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\Pivot;
-use Illuminate\Support\HtmlString;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
 
@@ -57,7 +57,7 @@ trait LogsModel
         return __('System');
     }
 
-    protected function getLogFirstSubject(): object
+    protected function getLogFirstSubject(): Model
     {
         return $this;
     }
@@ -67,7 +67,7 @@ trait LogsModel
         return $this->name;
     }
 
-    protected function getLogSecondSubject(): object
+    protected function getLogSecondSubject(): Model
     {
         return $this;
     }
@@ -80,7 +80,7 @@ trait LogsModel
     protected function logDescription(string $eventName): string
     {
         return __(':subject.type :subject.name was :event by :causer.name', [
-            'subject.type' => str(class_basename(get_class($this)))->headline(),
+            'subject.type' => str(class_basename($this))->headline(),
             'subject.name' => str(e($this->getLogSubjectName()))->wrapHtmlTag('strong'),
             'event' => str($eventName)->wrapHtmlTag('em')->wrapHtmlTag('strong'),
             'causer.name' => str(e($this->getLogCauserName()))->wrapHtmlTag('strong'),
@@ -90,7 +90,7 @@ trait LogsModel
     protected function logDescriptionPivot(string $eventName): string
     {
         return __(':subject.first.type :subject.first.name was :event :to :subject.second.type :subject.second.name by :causer.name', [
-            'subject.first.type' => str(class_basename(get_class($this->getLogFirstSubject())))->headline(),
+            'subject.first.type' => str(class_basename($this->getLogFirstSubject()))->headline(),
             'subject.first.name' => str(e($this->getLogFirstSubjectName()))->wrapHtmlTag('strong'),
             'event' => str(match ($eventName) {
                 'created' => __('attached'),
@@ -102,7 +102,7 @@ trait LogsModel
                 'deleted' => __('from'),
                 default => __('for'),
             },
-            'subject.second.type' => str(class_basename(get_class($this->getLogSecondSubject())))->headline(),
+            'subject.second.type' => str(class_basename($this->getLogSecondSubject()))->headline(),
             'subject.second.name' => str(e($this->getLogSecondSubjectName()))->wrapHtmlTag('strong'),
             'causer.name' => str(e($this->getLogCauserName()))->wrapHtmlTag('strong'),
         ]);

@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Traits\LogsModel;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\Pivot;
 
@@ -20,24 +21,24 @@ class PermissionRole extends Pivot
         return config('permission.table_names.role_has_permissions', parent::getTable());
     }
 
-    protected function getLogFirstSubject(): object
+    protected function getLogFirstSubject(): Model
     {
         return $this->permission;
     }
 
     protected function getLogFirstSubjectName(): string
     {
-        return $this->permission->label;
+        return $this->getLogFirstSubject()->label;
     }
 
-    protected function getLogSecondSubject(): object
+    protected function getLogSecondSubject(): Model
     {
         return $this->role;
     }
 
     protected function getLogSecondSubjectName(): string
     {
-        return $this->role->name;
+        return $this->getLogSecondSubject()->name;
     }
 
     /**
