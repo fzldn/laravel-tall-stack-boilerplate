@@ -12,8 +12,8 @@ use Illuminate\Support\Facades\Gate;
 
 class ModelActivity extends BaseWidget
 {
+    public ?Model $record = null;
     public ?Model $causer = null;
-    public ?Model $subject = null;
 
     public static function canView(): bool
     {
@@ -26,24 +26,23 @@ class ModelActivity extends BaseWidget
             return __('User Activity');
         }
 
-        if ($this->subject) {
-            return str(class_basename($this->subject))
-                ->headline()
-                ->append(__(' History'));
-        }
-
-        return null;
+        return str(class_basename($this->record))
+            ->headline()
+            ->append(__(' History'));
     }
 
     public function table(Table $table): Table
     {
         $query = Activity::query()
-            ->when($this->causer, function ($q, $causer) {
-                $q->causedBy($causer);
-            })
-            ->when($this->subject, function ($q, $subject) {
-                $q->forSubject($subject);
-            });
+            ->when(
+                $this->causer,
+                function ($q, $causer) {
+                    $q->causedBy($causer);
+                },
+                function ($q) {
+                    $q->forSubject($this->record);
+                }
+            );
 
         return $table
             ->heading($this->getHeading())
@@ -69,6 +68,7 @@ class ModelActivity extends BaseWidget
                     ->hidden(fn(Model $model) => (new $model->subject_type) instanceof Pivot)
                     ->extraAttributes(['class' => 'overflow-x-auto'])
                     ->collapsible(),
-            ]);
+            ])
+            ->paginationPageOptions([10, 25, 50, 100]);
     }
 }

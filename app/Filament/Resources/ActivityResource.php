@@ -93,7 +93,8 @@ class ActivityResource extends Resource
 
                         return __('To: :date', ['date' => $data['to']]);
                     }),
-            ], layout: Tables\Enums\FiltersLayout::AboveContent);
+            ], layout: Tables\Enums\FiltersLayout::AboveContent)
+            ->paginationPageOptions([10, 25, 50, 100]);
     }
 
     public static function getPages(): array

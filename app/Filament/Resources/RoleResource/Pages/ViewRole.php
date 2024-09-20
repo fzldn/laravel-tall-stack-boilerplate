@@ -22,7 +22,7 @@ class ViewRole extends ViewRecord
     protected function getFooterWidgets(): array
     {
         return [
-            ActivityResource\Widgets\ModelActivity::make(['subject' => $this->record]),
+            ActivityResource\Widgets\ModelActivity::make(),
         ];
     }
 }

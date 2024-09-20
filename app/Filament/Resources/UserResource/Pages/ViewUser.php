@@ -24,7 +24,7 @@ class ViewUser extends ViewRecord
     {
         return [
             ActivityResource\Widgets\ModelActivity::make(['causer' => $this->record]),
-            ActivityResource\Widgets\ModelActivity::make(['subject' => $this->record]),
+            ActivityResource\Widgets\ModelActivity::make(),
         ];
     }
 }
